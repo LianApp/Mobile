@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lian"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"
+        android:textAlignment="center"
+        android:textSize="30dp"/>
+
+    <ImageView
+        android:layout_width="154dp"
+        android:layout_height="135dp"
+        android:background="@drawable/logo"
+        android:contentDescription="TODO" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="24dp"
+            android:background="@drawable/custom_edittext">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Вход"
+                android:id="@+id/LoginText"
+                android:textSize="30sp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textColor="@color/lavander"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userName"
+                android:background="@drawable/custom_edittext"
+                android:layout_marginTop="40dp"
+                android:padding="8dp"
+                android:hint="Электронная почта"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userPassword"
+                android:background="@drawable/custom_edittext"
+                android:layout_marginTop="40dp"
+                android:padding="8dp"
+                android:hint="Пароль"
+                android:drawableLeft="@drawable/ic_baseline_lock_24"
+                android:textColor="@color/black"
+                android:password="true"
+                android:drawablePadding="8dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Вход"
+                android:id="@+id/loginButton"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                app:cornerRadius = "20dp"
+                android:backgroundTint="@color/lavander"/>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить организацию"
+        android:id="@+id/AddOrg"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        app:cornerRadius = "20dp"
+        android:backgroundTint="@color/lavander"/>
+</LinearLayout>
