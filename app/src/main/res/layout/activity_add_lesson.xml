@@ -22,7 +22,58 @@
             android:background="@color/lavander"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/lessonTittle"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_edittext"
+                android:drawableLeft="@drawable/ic_baseline_description_24"
+                android:padding="8dp"
+                android:hint="Название урока"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/addPresentation"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Презентация"
+                    android:layout_marginLeft="10dp"/>
+
+
+                <Space
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+
+                    android:id="@+id/addLecture"
+                    android:layout_width="145dp"
+                    android:layout_height="wrap_content"
+                    android:text="Лекция" />
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:id="@+id/addLesson"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Добавить урок"
+                android:layout_gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
+
+
+
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

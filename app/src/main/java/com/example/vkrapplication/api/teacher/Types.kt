@@ -9,7 +9,8 @@ public data class CourseResponse(
     val subjectId: Int,
     @SerializedName("teacher_id")
     val teacherId: String,
-    val lessons: ArrayList<Lesson>
+    val lessons: ArrayList<Lesson>,
+    val icon: String
 )
 
 public data class Lesson(

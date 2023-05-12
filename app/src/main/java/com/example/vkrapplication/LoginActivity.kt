@@ -68,6 +68,11 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(intent)
                                     finish()
                                 }
+                                "ORGANIZATOR" -> {
+                                    val intent = Intent(this, StudentProfile::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
                                 else -> {
 
                                 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddStudentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"/>
+
+        <EditText
+            android:id="@+id/user_student_name"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_edittext"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:drawablePadding="8dp"
+            android:hint="Имя студента"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/user_student_mail"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_edittext"
+            android:drawableLeft="@drawable/ic_baseline_person_24"
+            android:drawablePadding="8dp"
+            android:hint="Почта студента"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/add_student_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/lavander"
+            android:text="Добавить"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/add_teacher_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/lavander"
+            android:text="Добавить учителя"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/add_group_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/lavander"
+            android:text="Добавить группу"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

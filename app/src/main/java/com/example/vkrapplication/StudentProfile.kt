@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.nav_header.*
 class StudentProfile : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
-    private val viewModel: AuthViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     private val tokenViewModel: TokenViewModel by viewModels()
 
@@ -34,9 +33,9 @@ class StudentProfile : AppCompatActivity() {
 
         mainViewModel.getUserInfo(
             object: CoroutinesErrorHandler {
-            override fun onError(message: String) {
-                Toast.makeText(this@StudentProfile, message, Toast.LENGTH_SHORT).show()
-            }
+                override fun onError(message: String) {
+                    Toast.makeText(this@StudentProfile, message, Toast.LENGTH_SHORT).show()
+                }
         })
         mainViewModel.userInfoResponse.observe(this){
             when(it){
@@ -55,10 +54,10 @@ class StudentProfile : AppCompatActivity() {
             }
         }
 
-        val subjBtn = findViewById<Button>(R.id.SubjectButton)
+        val courseBtn = findViewById<Button>(R.id.course_button)
 
-        subjBtn.setOnClickListener {
-            val intent = Intent(this, SubjectActivity::class.java)
+        courseBtn.setOnClickListener {
+            val intent = Intent(this, CourseStudentActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -86,7 +85,7 @@ class StudentProfile : AppCompatActivity() {
                     true
                 }
                 R.id.subjects -> {
-                    startActivity(Intent(this, SubjectActivity::class.java))
+                    startActivity(Intent(this, CourseStudentActivity::class.java))
                     true
                 }
                 R.id.nav_logout ->{

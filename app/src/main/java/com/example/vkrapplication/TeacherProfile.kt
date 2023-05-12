@@ -3,32 +3,69 @@ package com.example.vkrapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.vkrapplication.api.ApiResponse
+import com.example.vkrapplication.api.CoroutinesErrorHandler
+import com.example.vkrapplication.api.auth.AuthViewModel
+import com.example.vkrapplication.api.main.MainViewModel
+import com.example.vkrapplication.api.token.TokenViewModel
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_student_profile.*
+import kotlinx.android.synthetic.main.nav_header.*
 
+@AndroidEntryPoint
 class TeacherProfile : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
+    private val mainViewModel: MainViewModel by viewModels()
+    private val tokenViewModel: TokenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teacher_profile)
 
 
-        val resBtn = findViewById<Button>(R.id.ResultBtn)
-        val addLessBtn = findViewById<Button>(R.id.AddLessonBtn)
+        mainViewModel.getUserInfo(
+            object: CoroutinesErrorHandler {
+                override fun onError(message: String) {
+                    Toast.makeText(this@TeacherProfile, message, Toast.LENGTH_SHORT).show()
+                }
+            })
 
-        addLessBtn.setOnClickListener {
-            val intent = Intent(this, AddLessonActivity::class.java)
+        mainViewModel.userInfoResponse.observe(this){
+            when(it){
+                is ApiResponse.Failure -> {
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    Log.e("Api",it.errorMessage)
+                }
+                ApiResponse.Loading -> Toast.makeText(this, "loading", Toast.LENGTH_SHORT).show()
+                is ApiResponse.Success -> {
+                    name_txt.text = it.data.name
+                    nav_name.text = it.data.name
+                }
+                else -> {}
+            }
+        }
+
+        val resBtn = findViewById<Button>(R.id.ResultBtn)
+
+        resBtn.setOnClickListener {
+            val intent = Intent(this, ResultActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        resBtn.setOnClickListener {
-            val intent = Intent(this, ResultActivity::class.java)
+        val courseBtn = findViewById<Button>(R.id.course_btn_teacher)
+
+        courseBtn.setOnClickListener {
+            val intent = Intent(this, CourseTeacherActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -55,15 +92,16 @@ class TeacherProfile : AppCompatActivity() {
                     startActivity(Intent(this, TeacherProfile::class.java))
                     true
                 }
-                R.id.add_lesson -> {
-                    startActivity(Intent(this, AddLessonActivity::class.java))
-                    true
-                }
                 R.id.results -> {
                     startActivity(Intent(this, ResultActivity::class.java))
                     true
                 }
+                R.id.courses -> {
+                    startActivity(Intent(this, CourseTeacherActivity::class.java))
+                    true
+                }
                 R.id.nav_logout ->{
+                    tokenViewModel.deleteToken()
                     startActivity(Intent(this, LoginActivity::class.java))
                     true
                 }

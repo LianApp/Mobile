@@ -10,13 +10,13 @@
             android:icon="@drawable/ic_baseline_person_24"
             android:title="Профиль"/>
         <item
-            android:id="@+id/add_lesson"
-            android:icon="@drawable/ic_baseline_collections_bookmark_24"
-            android:title="Добавить урок"/>
-        <item
             android:id="@+id/results"
             android:icon="@drawable/ic_baseline_table_chart_24"
             android:title="Резуьтаты"/>
+        <item
+            android:id="@+id/courses"
+            android:icon="@drawable/ic_baseline_collections_bookmark_24"
+            android:title="Курсы"/>
     </group>
     <item
         android:title="">

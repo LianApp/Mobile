@@ -10,15 +10,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TeachersViewModel @Inject constructor(
-    private val studentsRepository: StudentsRepository
+    private val teachersRepository: TeachersRepository
 ) : BaseViewModel(){
     private val _coursesResponse = MutableLiveData<ApiResponse<ArrayList<CourseResponse>>>()
     val coursesResponse = _coursesResponse
 
-    fun getStudentCourses(coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
+    fun getTeachersCourses(coroutinesErrorHandler: CoroutinesErrorHandler) = baseRequest(
         _coursesResponse,
         coroutinesErrorHandler,
     ) {
-        studentsRepository.getStudentCourses()
+        teachersRepository.getTeacherCourses()
     }
 }

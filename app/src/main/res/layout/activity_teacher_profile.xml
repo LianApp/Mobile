@@ -30,18 +30,10 @@
             android:layout_margin="10dp">
 
             <TextView
+                android:id="@+id/name_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Имя Фамилия Отчество"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/lavander"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Организация"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -61,24 +53,24 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/AddLessonBtn"
+                android:id="@+id/course_btn_teacher"
                 android:layout_width="170dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/lavander"
-                android:text="Создать урок"
+                android:text="Курсы"
                 android:textSize="18sp"
                 app:cornerRadius="20dp"
                 android:layout_margin="20dp"/>
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/ResultBtn"
                 android:layout_width="170dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:layout_marginTop="30dp"
                 android:backgroundTint="@color/lavander"
                 android:text="Результаты тестов"
                 android:textSize="18sp"

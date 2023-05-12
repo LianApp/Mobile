@@ -7,7 +7,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.example.vkrapplication.api.auth.AuthApiService
 import com.example.vkrapplication.api.auth.AuthAuthenticator
 import com.example.vkrapplication.api.auth.AuthInterceptor
+import com.example.vkrapplication.api.courses.CoursesApiService
+import com.example.vkrapplication.api.groups.GroupsApiService
+import com.example.vkrapplication.api.lessons.LessonsApiService
 import com.example.vkrapplication.api.main.MainApiService
+import com.example.vkrapplication.api.student.StudentsApiService
+import com.example.vkrapplication.api.subject.SubjectsApiService
+import com.example.vkrapplication.api.teacher.TeachersApiService
 import com.example.vkrapplication.api.token.TokenManager
 import dagger.Module
 import dagger.Provides
@@ -18,6 +24,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "data_store")
@@ -77,4 +84,52 @@ class SingletonModule {
             .client(okHttpClient)
             .build()
             .create(MainApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideStudentApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): StudentsApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(StudentsApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideTeacherApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): TeachersApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(TeachersApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideLessonsApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder): LessonsApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(LessonsApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideGroupsApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder) : GroupsApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(GroupsApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSubjectsApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder) : SubjectsApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(SubjectsApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideCourseApiService(okHttpClient: OkHttpClient, retrofit: Retrofit.Builder) : CoursesApiService =
+        retrofit
+            .client(okHttpClient)
+            .build()
+            .create(CoursesApiService::class.java)
 }

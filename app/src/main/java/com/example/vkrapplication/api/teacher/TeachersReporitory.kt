@@ -3,10 +3,10 @@ package com.example.vkrapplication.api.teacher
 import com.example.vkrapplication.api.apiRequestFlow
 import javax.inject.Inject
 
-class StudentsRepository @Inject constructor(
-    private val studentsApiService: TeachersApiService,
+class TeachersRepository @Inject constructor(
+    private val teachersApiService: TeachersApiService,
 ) {
-    fun getStudentCourses() = apiRequestFlow {
-        studentsApiService.getTeacherCourses()
+    fun getTeacherCourses() = apiRequestFlow {
+        teachersApiService.getTeacherCourses()
     }
 }
