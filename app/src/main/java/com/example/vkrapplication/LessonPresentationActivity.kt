@@ -93,7 +93,7 @@ class LessonPresentationActivity : AppCompatActivity() {
         }
 
         val lessonInfo = intent.getParcelableExtra<Lesson>("lesson")
-        webViewSetup("https://view.officeapps.live.com/op/embed.aspx?src=https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx")
+        webViewSetup("https://view.officeapps.live.com/op/embed.aspx?src=${lessonInfo?.presentationUrl}")
 
         val lectBtn = findViewById<Button>(R.id.lecture_btn)
 

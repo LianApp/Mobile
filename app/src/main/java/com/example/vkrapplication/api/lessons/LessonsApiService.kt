@@ -1,6 +1,7 @@
 package com.example.vkrapplication.api.lessons
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -9,11 +10,11 @@ interface LessonsApiService {
     suspend fun getLessons(@Path("id") id : Int): Response<ArrayList<Lesson>>
 
     @Multipart
-    @POST("courses/{id}/lessons")
+    @POST("course/{id}/lessons")
     suspend fun createLesson(
-        @Path("id") id :Int,
-        @Part("title") title : String,
-        @Part("presentation") presentationFile : MultipartBody.Part,
-        @Part("lecture") lectureFile : MultipartBody.Part
+        @Path("id") id : Int,
+        @Part("title") title : RequestBody,
+        @Part presentationFile : MultipartBody.Part,
+        @Part lectureFile : MultipartBody.Part
     ) : Response<Lesson>
 }

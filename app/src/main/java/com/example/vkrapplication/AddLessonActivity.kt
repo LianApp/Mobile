@@ -3,10 +3,11 @@ package com.example.vkrapplication
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.FileUtils
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,22 +15,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.vkrapplication.api.ApiResponse
 import com.example.vkrapplication.api.CoroutinesErrorHandler
-import com.example.vkrapplication.api.courses.CreateCourse
-import com.example.vkrapplication.api.lessons.CreateLesson
-import com.example.vkrapplication.api.lessons.Lesson
 import com.example.vkrapplication.api.lessons.LessonsViewModel
 import com.example.vkrapplication.api.main.MainViewModel
 import com.example.vkrapplication.api.token.TokenViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_lesson.*
-import kotlinx.android.synthetic.main.activity_student_profile.*
 import kotlinx.android.synthetic.main.nav_header.*
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.File
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.InputStream
 
 @AndroidEntryPoint
 class AddLessonActivity : AppCompatActivity() {
@@ -38,42 +33,78 @@ class AddLessonActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private val tokenViewModel: TokenViewModel by viewModels()
     private val lessonViewModel : LessonsViewModel by viewModels()
-
-    lateinit var selectedFile1 : String
-    lateinit var selectedFile2 : String
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            selectedFile1 = data?.data?.path.toString()
+    private var pptxInputStream: InputStream? = null
+    private var wordInputStream: InputStream? = null
+    private val startPptxPicker =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri == null) {
+                return@registerForActivityResult
+            }
+            val stream = uploadFile(uri, "pptx")
+            pptxInputStream = stream
         }
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            selectedFile2 = data?.data?.path.toString()
+    private val startWordPicker =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri == null) {
+                return@registerForActivityResult
+            }
+            val stream = uploadFile(uri, "docx")
+            wordInputStream = stream
         }
+
+
+    private fun getFileExt(uri: Uri): String? {
+        val mimeTypeMap: MimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(
+            contentResolver.getType(uri)
+        )
+    }
+
+    private fun uploadFile(data: Uri, fileExt: String): InputStream? {
+        val ext = getFileExt(data)
+        if (ext != fileExt) {
+            Toast.makeText(
+                this@AddLessonActivity,
+                "Вы должны загрузить файл в формате $fileExt",
+                Toast.LENGTH_SHORT).show()
+            return null
+        }
+        return contentResolver.openInputStream(data)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_lesson)
 
-
-
         val courseId = intent.getIntExtra("courseId",0)
-
-        var filePres = File(selectedFile1)
-        var fileLecture = File(selectedFile2)
-        var requestPresFile : RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), filePres)
-        var requestLectFile : RequestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), fileLecture)
-        val presMulti : MultipartBody.Part = MultipartBody.Part.createFormData("pres", filePres.name, requestPresFile)
-        val lectMulti : MultipartBody.Part = MultipartBody.Part.createFormData("lect",fileLecture.name,requestLectFile)
 
         val addlessonBtn = findViewById<Button>(R.id.addLesson)
         addlessonBtn.setOnClickListener {
+            if (pptxInputStream == null || wordInputStream == null)  {
+                Toast.makeText(
+                    this@AddLessonActivity,
+                    "Attach files first",
+                    Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val pptxBytes = pptxInputStream!!.readBytes()
+            val wordBytes = wordInputStream!!.readBytes()
+            val pptxPart = MultipartBody.Part.createFormData(
+                "presentation",
+                "file.pptx",
+                pptxBytes.toRequestBody()
+            )
+            val wordPart = MultipartBody.Part.createFormData(
+                "lecture",
+                "file.docx",
+                wordBytes.toRequestBody()
+            )
             lessonViewModel.createLesson(
                 courseId,
-                lessonTittle.text.toString(),
-                presMulti,
-                lectMulti,
+                lessonTittle.text.toString().toRequestBody(),
+                pptxPart,
+                wordPart,
                 object  : CoroutinesErrorHandler{
                     override fun onError(message: String) {
                         Toast.makeText(this@AddLessonActivity, message, Toast.LENGTH_SHORT).show()
@@ -106,22 +137,16 @@ class AddLessonActivity : AppCompatActivity() {
         val addLessonPresentationBtn = findViewById<Button>(R.id.addPresentation)
         val addLessonLectureBtn = findViewById<Button>(R.id.addLecture)
 
+
+
         addLessonPresentationBtn.setOnClickListener {
-            val intent = Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-            startActivityForResult(Intent.createChooser(intent, "Выберете файл презентации"), 1)
+            startPptxPicker.launch("*/*")
         }
 
 
         addLessonLectureBtn.setOnClickListener {
-            val intent = Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-            startActivityForResult(Intent.createChooser(intent, "Выберете файл лекции"), 2)
+            startWordPicker.launch("*/*")
         }
-
-
 
         drawerLayout = findViewById(R.id.drawer_layout)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)

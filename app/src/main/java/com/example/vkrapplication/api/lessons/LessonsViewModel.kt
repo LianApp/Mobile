@@ -6,6 +6,7 @@ import com.example.vkrapplication.api.BaseViewModel
 import com.example.vkrapplication.api.CoroutinesErrorHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 
@@ -27,7 +28,7 @@ class LessonsViewModel @Inject constructor(
 
     fun createLesson(
         courseId : Int,
-        title : String,
+        title : RequestBody,
         presentationFile : MultipartBody.Part,
         lectureFile : MultipartBody.Part,
         coroutinesErrorHandler: CoroutinesErrorHandler
